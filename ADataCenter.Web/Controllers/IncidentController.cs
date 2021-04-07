@@ -71,7 +71,7 @@ namespace ADataCenter.Web.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Route("CreateData")]
+        [Route("CreateIncident")]
         public ActionResult<Incident> CreateIncident([FromBody] Incident inIncident)
         {
             if(inIncident.ID != Guid.Empty)
