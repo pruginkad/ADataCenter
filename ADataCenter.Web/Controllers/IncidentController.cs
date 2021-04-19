@@ -20,11 +20,16 @@ namespace ADataCenter.Web.Controllers
 
         private readonly ILogger<IncidentController> _logger;
         private readonly IUnitOfWork<Incident> _repo;
+        private readonly IUnitOfWorkList<incident_handling_list> _repoList;
 
-        public IncidentController(ILogger<IncidentController> logger, IUnitOfWork<Incident> repo)
+        public IncidentController(ILogger<IncidentController> logger, 
+            IUnitOfWork<Incident> repo,
+            IUnitOfWorkList<incident_handling_list> repoList
+            )
         {
             _logger = logger;
             _repo = repo;
+            _repoList = repoList;
         }
 
         [HttpGet]
@@ -54,8 +59,6 @@ namespace ADataCenter.Web.Controllers
 
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        //[Route("GetById/{id}")]
-        
         [HttpGet ("{incident_id:guid}", Name = "GetById")]
         public async Task<ActionResult<Incident>> GetById(Guid Incident_id)
         {
@@ -72,7 +75,7 @@ namespace ADataCenter.Web.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("CreateIncident")]
-        public async Task<ActionResult<Incident>> CreateIncident([FromBody] Incident inIncident)
+        public async Task<ActionResult> CreateIncident([FromBody] Incident inIncident)
         {
             if(inIncident.ID != Guid.Empty)
             {
@@ -85,12 +88,12 @@ namespace ADataCenter.Web.Controllers
             
 
             var retIncident = await _repo.Create(inIncident);
-            if(retIncident == null)
+            if(retIncident != EN_RETCODE.OK)
             {
                 return BadRequest("unable to create");
             }
-            
-            return CreatedAtAction(@"GetById", new { Incident_id = retIncident.ID }, retIncident);
+
+            return Ok();
         }
 
         [HttpPut]
@@ -127,6 +130,55 @@ namespace ADataCenter.Web.Controllers
             }
 
             var res = await _repo.Delete(idIncident);
+            if (res != EN_RETCODE.OK)
+            {
+                return BadRequest("delete failed");
+            }
+
+            var res1 = await DeleteHandlingList(idIncident);
+            if (res != EN_RETCODE.OK)
+            {
+                return BadRequest("DeleteHandlingList Failed");
+            }
+            return Ok();
+        }
+        /////////////////////////////////List
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Route("HandlingList/CreateIncidentHandling")]
+        public async Task<ActionResult> CreateIncidentHandling([FromBody] incident_handling_list inIncident)
+        {
+            var retIncident = await _repoList.Create(inIncident);
+            if (retIncident != EN_RETCODE.OK)
+            {
+                return BadRequest("unable to create");
+            }
+
+            return Ok();
+        }
+
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]        
+        [HttpGet("HandlingList/{idIncident:guid}", Name = "GetHandlingList")]
+        public async Task<ActionResult<incident_handling_list>> GetHandlingList(Guid idIncident)
+        {
+            var temp = await _repoList.GetById(idIncident);
+            if (temp == null)
+            {
+                return NotFound();
+            }
+            return Ok(temp);
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Route("HandlingList/DeleteHandlingList/{idIncident}")]
+        public async Task<ActionResult> DeleteHandlingList(Guid idIncident)
+        {
+            var res = await _repoList.Delete(idIncident);
             if (res != EN_RETCODE.OK)
             {
                 return BadRequest("delete failed");

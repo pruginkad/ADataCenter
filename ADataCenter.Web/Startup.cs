@@ -20,51 +20,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ADataCenter.Web
 {
-    namespace swag_examples
-    {
-        public class SingleIncident : IExamplesProvider<Incident>
-        {
-            public Incident GetExamples()
-            {
-                return new Incident
-                {
-                    IncidentName = "Fire",
-                    objtype = "CAM",
-                    objid = "1",
-                    action = "ALARM",
-                    IncidentTimestamp = DateTime.UtcNow
-                };
-            }
-        }
-
-        public class MultiIncident : IExamplesProvider<IEnumerable<Incident>>
-        {
-            public IEnumerable<Incident> GetExamples()
-            {
-                return new List<Incident>()
-            {
-                new Incident
-                {
-                    IncidentName = "Smoke on the water",
-                    objtype = "CAM",
-                    objid = "1",
-                    action = "ALARM",
-                    IncidentTimestamp = DateTime.UtcNow
-                },
-                new Incident
-                {
-                    IncidentName = "Fire",
-                    objtype = "CAM",
-                    objid = "2",
-                    action = "ALARM",
-                    IncidentTimestamp = DateTime.UtcNow
-                }
-            };
-            }
-        }
-    }
-    
-    
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -79,8 +34,11 @@ namespace ADataCenter.Web
         {
             services.AddControllers();
             
-            services.AddScoped<IUnitOfWork<Incident>, UnitOfWork>();
+            services.AddScoped<IUnitOfWork<Incident>, UnitOfWorkIncident>();
             services.AddScoped<IRepository<Incident>, IncidentRepositoryImp>();
+
+            services.AddScoped<IUnitOfWorkList<incident_handling_list>, UnitOfWorkIncidentHandlingList>();
+            services.AddScoped<IRepositoryList<incident_handling_list>, IncidentHandlingListRepositoryImp>();
 
             string cs = Configuration.GetConnectionString("IncidentDatabase");
             services.AddDbContext<IncidentContext>(options =>

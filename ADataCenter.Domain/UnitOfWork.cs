@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace ADataCenter.Domain
 {
-    public class UnitOfWork : IUnitOfWork<Incident>
+    public class UnitOfWorkIncident : IUnitOfWork<Incident>
     {
         private readonly IRepository<Incident> IncidentRepository;
 
-        public UnitOfWork(IRepository<Incident> inRepository)
+        public UnitOfWorkIncident(IRepository<Incident> inRepository)
         {
             this.IncidentRepository = inRepository;
         }
-        public Task<Incident> Create(Incident item)
+        public Task<EN_RETCODE> Create(Incident item)
         {
             return IncidentRepository.Create(item);
         }

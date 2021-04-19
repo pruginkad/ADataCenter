@@ -17,7 +17,8 @@ namespace ADataCenter.Data
             
         }
         DbSet<Incident> _Incidents = null;
-        
+        DbSet<incident_handling> _IncidentHandling = null;
+
         public DbSet<Incident> Incidents
         {
             get
@@ -29,6 +30,18 @@ namespace ADataCenter.Data
                 _Incidents = value;
             }
         }
+
+        public DbSet<incident_handling> IncidentHandling
+        {
+            get
+            {
+                return _IncidentHandling;
+            }
+            set
+            {
+                _IncidentHandling = value;
+            }
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=incidentdb;Username=postgres;Password=postgres");
@@ -36,6 +49,10 @@ namespace ADataCenter.Data
             //optionsBuilder.UseSqlServer(cs);
             //optionsBuilder.UseInMemoryDatabase("IncidentDb");
         }
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //modelBuilder.Entity<incident_handling>()
+            //    .HasNoKey();
+        }
     }
 }

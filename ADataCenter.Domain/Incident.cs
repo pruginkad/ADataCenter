@@ -13,6 +13,7 @@ namespace ADataCenter.Domain
         public string objtype { get; set; }
         public string objid { get; set; }
         public string action { get; set; }
+        public string user_id { get; set; }
         public DateTime IncidentTimestamp { get; set; } //in UTC.
         
 

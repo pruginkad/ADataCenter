@@ -18,7 +18,7 @@ namespace ADataCenter.Data
             this._IncidentContext = ContextIn;
         }
 
-        public async Task<Incident> Create(Incident item)
+        public async Task<EN_RETCODE> Create(Incident item)
         {
             var db_row = await GetById(item.ID);
             if (db_row != null)
@@ -34,8 +34,8 @@ namespace ADataCenter.Data
             {
                 return default;
             }
-            
-            return new_db_row.Entity;
+
+            return EN_RETCODE.OK;
         }
 
         public async Task<EN_RETCODE> Delete(Guid id)
