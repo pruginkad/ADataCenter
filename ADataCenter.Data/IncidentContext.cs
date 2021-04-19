@@ -10,9 +10,11 @@ namespace ADataCenter.Data
 {
     public class IncidentContext : DbContext
     {
-        public IncidentContext()
-        {
+       
 
+        public IncidentContext(DbContextOptions<IncidentContext> options):base(options)
+        {
+            
         }
         DbSet<Incident> _Incidents = null;
         
@@ -29,8 +31,8 @@ namespace ADataCenter.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string cs = string.Empty;
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=incidentdb;Username=postgres;Password=postgres");
+            //optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=incidentdb;Username=postgres;Password=postgres");
+            //string cs = string.Empty;
             //optionsBuilder.UseSqlServer(cs);
             //optionsBuilder.UseInMemoryDatabase("IncidentDb");
         }

@@ -47,9 +47,9 @@ namespace ADataCenter.Web.Controllers
 
         [HttpGet]
         [Route("GetAllIncidents")]
-        public IEnumerable<Incident> Get()
+        public async Task<IEnumerable<Incident>> Get()
         {
-            return  _repo.GetAll().Result;
+            return  await _repo.GetAll();
         }
 
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -57,9 +57,9 @@ namespace ADataCenter.Web.Controllers
         //[Route("GetById/{id}")]
         
         [HttpGet ("{incident_id:guid}", Name = "GetById")]
-        public ActionResult<Incident> GetById(Guid Incident_id)
+        public async Task<ActionResult<Incident>> GetById(Guid Incident_id)
         {
-            Incident temp = _repo.GetById(Incident_id).Result;
+            Incident temp = await _repo.GetById(Incident_id);
             if(temp == null)
             {
                 return NotFound();
@@ -72,11 +72,11 @@ namespace ADataCenter.Web.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("CreateIncident")]
-        public ActionResult<Incident> CreateIncident([FromBody] Incident inIncident)
+        public async Task<ActionResult<Incident>> CreateIncident([FromBody] Incident inIncident)
         {
             if(inIncident.ID != Guid.Empty)
             {
-                var tempIncident = _repo.GetById(inIncident.ID).Result;
+                var tempIncident = await _repo.GetById(inIncident.ID);
                 if(tempIncident != null)
                 {
                     return BadRequest("id already exist");
@@ -84,7 +84,7 @@ namespace ADataCenter.Web.Controllers
             }
             
 
-            var retIncident = _repo.Create(inIncident).Result;
+            var retIncident = await _repo.Create(inIncident);
             if(retIncident == null)
             {
                 return BadRequest("unable to create");
@@ -97,15 +97,15 @@ namespace ADataCenter.Web.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("UpdateIncident")]
-        public ActionResult UpdateIncident(Incident inIncident)
+        public async Task<ActionResult> UpdateIncident(Incident inIncident)
         {
-            var tempIncident = _repo.GetById(inIncident.ID).Result;
+            var tempIncident = await _repo.GetById(inIncident.ID);
             if (tempIncident == null)
             {
                 return BadRequest("id not exist");
             }
 
-            var res = _repo.Update(inIncident).Result;
+            var res = await _repo.Update(inIncident);
             if (res != EN_RETCODE.OK)
             {
                 return BadRequest("update failed");
@@ -118,15 +118,15 @@ namespace ADataCenter.Web.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Route("DeleteIncident/{idIncident}")]
-        public ActionResult DeleteIncident(Guid idIncident)
+        public async Task<ActionResult> DeleteIncident(Guid idIncident)
         {
-            var tempIncident = _repo.GetById(idIncident).Result;
+            var tempIncident = await _repo.GetById(idIncident);
             if (tempIncident == null)
             {
                 return BadRequest("id not exist");
             }
 
-            var res = _repo.Delete(idIncident).Result;
+            var res = await _repo.Delete(idIncident);
             if (res != EN_RETCODE.OK)
             {
                 return BadRequest("delete failed");

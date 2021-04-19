@@ -16,6 +16,7 @@ using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Reflection;
 using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace ADataCenter.Web
 {
@@ -80,7 +81,10 @@ namespace ADataCenter.Web
             
             services.AddScoped<IUnitOfWork<Incident>, UnitOfWork>();
             services.AddScoped<IRepository<Incident>, IncidentRepositoryImp>();
-            services.AddDbContext<IncidentContext>();
+
+            string cs = Configuration.GetConnectionString("IncidentDatabase");
+            services.AddDbContext<IncidentContext>(options =>
+                    options.UseNpgsql(cs));
 
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Incident>());
 
