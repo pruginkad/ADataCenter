@@ -81,5 +81,17 @@ namespace ADataCenter.Web
 
             }
         }
+        ////////////////////////////////////
+        public class SingleImage : IExamplesProvider<ImageData>
+        {
+            public ImageData GetExamples()
+            {
+                return new ImageData
+                {
+                    path = @"test/3.png",
+                    image_data = "iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAfSURBVBhXY3gro8LAwLD1mSwQQTlQAORAEJQPBQwMAEfWCVLBLOaRAAAAAElFTkSuQmCC"
+                };
+            }
+        }
     }
 }

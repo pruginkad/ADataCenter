@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using ADataCenter.Domain;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -13,8 +14,6 @@ namespace ADataCenter.Web
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Consumes("application/json")]
-    [Produces("application/json")]
     public class PictureController : ControllerBase
     {
         IConfiguration _configuration;
@@ -29,7 +28,8 @@ namespace ADataCenter.Web
             catch(Exception)
             { 
             }
-            //if(string.IsNullOrEmpty(_image_path))
+            
+            if(string.IsNullOrEmpty(_image_path))
             {
                 _image_path = Path.Combine(appEnvironment.WebRootPath, "images");
             }
@@ -40,24 +40,43 @@ namespace ADataCenter.Web
         public IActionResult Get(string path)
         {
             Byte[] b;
-            
-            b = System.IO.File.ReadAllBytes(@"C:\WORK\1.bmp");
+
+            string ipath = Path.Combine(_image_path, path);
+            b = System.IO.File.ReadAllBytes(ipath);
             
             return File(b, "image/jpeg");
         }
 
         // GET api/<PictureController>/5
-        [HttpGet("{path}")]
-        public string GetAsBase64(string path)
+        [HttpGet("GetAsBase64/{path}")]
+        public ActionResult<ImageData> GetAsBase64(string path)
         {
-            return "value";
+            Byte[] b;
+            string ipath = Path.Combine(_image_path, path);
+            b = System.IO.File.ReadAllBytes(ipath);
+            ImageData temp = new ImageData()
+            {
+                path = path,
+                image_data = Convert.ToBase64String(b)
+            };
+            return Ok(temp);
         }
 
 
         // PUT api/<PictureController>/5
-        [HttpPut("{path}")]
-        public void PutAsBase64(string path, [FromBody] string value)
+        [HttpPut]
+        [Route("PutAsBase64")]
+        public ActionResult PutAsBase64(ImageData value)
         {
+            string ipath = Path.Combine(_image_path, value.path);
+            System.IO.Directory.CreateDirectory(Path.GetDirectoryName(ipath));
+            var bytes = Convert.FromBase64String(value.image_data);
+            using (var imageFile = new FileStream(ipath, FileMode.Create))
+            {
+                imageFile.Write(bytes, 0, bytes.Length);
+                imageFile.Flush();
+            }
+            return Ok();
         }
 
         // DELETE api/<PictureController>/5

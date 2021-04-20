@@ -93,14 +93,14 @@ namespace ADataCenter.Web
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
-                     Path.Combine(env.WebRootPath, "Incidents")),
+                     Path.Combine(env.WebRootPath, "")),
                 RequestPath = "/MyImages"
             });
 
             app.UseDirectoryBrowser(new DirectoryBrowserOptions
             {
                 FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
-            Path.Combine(env.WebRootPath, "Incidents")),
+            Path.Combine(env.WebRootPath, "")),
                 RequestPath = "/MyImages"
             });
             //End files
