@@ -12,7 +12,8 @@ using System.Threading.Tasks;
 
 namespace ADataCenter.Web
 {
-    [Route("api/[controller]")]
+    [Route("IncidentApi/[controller]")]
+    //[Route("IncidentApi")]
     [ApiController]
     public class PictureController : ControllerBase
     {
@@ -51,8 +52,8 @@ namespace ADataCenter.Web
         [HttpGet("GetAsBase64/{path}")]
         public ActionResult<ImageData> GetAsBase64(string path)
         {
-            Byte[] b;
             string ipath = Path.Combine(_image_path, path);
+            Byte[] b;
             b = System.IO.File.ReadAllBytes(ipath);
             ImageData temp = new ImageData()
             {
@@ -63,10 +64,9 @@ namespace ADataCenter.Web
         }
 
 
-        // PUT api/<PictureController>/5
-        [HttpPut]
-        [Route("PutAsBase64")]
-        public ActionResult PutAsBase64(ImageData value)
+        [HttpPost]
+        [Route("PostAsBase64")]
+        public ActionResult PostAsBase64(ImageData value)
         {
             string ipath = Path.Combine(_image_path, value.path);
             System.IO.Directory.CreateDirectory(Path.GetDirectoryName(ipath));
@@ -81,8 +81,11 @@ namespace ADataCenter.Web
 
         // DELETE api/<PictureController>/5
         [HttpDelete("{path}")]
-        public void Delete(string path)
+        public ActionResult Delete(string path)
         {
+            string ipath = Path.Combine(_image_path, path);
+            System.IO.File.Delete(ipath);
+            return Ok();
         }
     }
 }
