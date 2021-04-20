@@ -20,6 +20,7 @@ namespace ADataCenter.Domain
         public Guid id { get; set; }
         public string line_descr { get; set; }
         public string line_action { get; set; }
+        public string image_path { get; set; }
         public Guid incident_id { get; set; }
         public DateTime line_timestamp { get; set; }
     }

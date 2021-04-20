@@ -17,6 +17,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using System.Reflection;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace ADataCenter.Web
 {
@@ -43,6 +44,8 @@ namespace ADataCenter.Web
             string cs = Configuration.GetConnectionString("IncidentDatabase");
             services.AddDbContext<IncidentContext>(options =>
                     options.UseNpgsql(cs));
+
+            services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Incident>());
 
@@ -78,7 +81,29 @@ namespace ADataCenter.Web
                 setUpAction.RoutePrefix = "";
 
             });
+            ///Files
+            try
+            {
+                env.WebRootPath = Configuration["ImagePath"];
+            }
+            catch(Exception)
+            { }
+            
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
+                     Path.Combine(env.WebRootPath, "Incidents")),
+                RequestPath = "/MyImages"
+            });
 
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions
+            {
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
+            Path.Combine(env.WebRootPath, "Incidents")),
+                RequestPath = "/MyImages"
+            });
+            //End files
             app.UseHttpsRedirection();
 
             app.UseRouting();

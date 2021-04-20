@@ -25,6 +25,10 @@ namespace ADataCenter.Data
                 {
                     item.incident_id = item_list.incident_id;
                 }
+                if (item.id == Guid.Empty)
+                {
+                    item.id = Guid.NewGuid();
+                }
                 var new_db_row = await _IncidentContext.AddAsync(item);
             }
             
