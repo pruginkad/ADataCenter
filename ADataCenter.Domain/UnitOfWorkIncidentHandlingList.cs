@@ -33,5 +33,9 @@ namespace ADataCenter.Domain
         {
             return _Repository.Update(item);
         }
+        public Task<incident_handling_list> GetAll(IEnumerable<Guid> filter)
+        {
+            return _Repository.GetAll(filter);
+        }
     }
 }

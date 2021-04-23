@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NodaTime;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,7 +23,28 @@ namespace ADataCenter.Domain
         public string line_action { get; set; }
         public string image_path { get; set; }
         public Guid incident_id { get; set; }
-        public DateTime line_timestamp { get; set; }
+
+        Instant _line_timestamp = new Instant();
+        
+        public Instant line_timestamp 
+        {
+            get
+            {
+                return _line_timestamp;
+            }
+
+            set
+            {
+                try
+                {
+                    _line_timestamp = value;
+                }
+                catch(Exception ex)
+                {
+
+                }
+            }
+        }
     }
     public class incident_handling_list
     {

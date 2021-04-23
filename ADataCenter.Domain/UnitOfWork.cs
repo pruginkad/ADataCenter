@@ -14,24 +14,24 @@ namespace ADataCenter.Domain
         {
             this.IncidentRepository = inRepository;
         }
-        public Task<EN_RETCODE> Create(Incident item)
+        public async Task<EN_RETCODE> Create(Incident item)
         {
-            return IncidentRepository.Create(item);
+            return await IncidentRepository.Create(item);
         }
 
-        public Task<EN_RETCODE> Delete(Guid id)
+        public async Task<EN_RETCODE> Delete(Guid id)
         {
-            return IncidentRepository.Delete(id);
+            return await IncidentRepository.Delete(id);
         }
 
-        public Task<IEnumerable<Incident>> GetAll(Filter4Get filter)
+        public async Task<IEnumerable<Incident>> GetAll(Filter4Get filter)
         {
-            return IncidentRepository.GetAll(filter);
+            return await IncidentRepository.GetAll(filter);
         }
 
-        public Task<Incident> GetById(Guid id)
+        public async Task<Incident> GetById(Guid id)
         {
-            return IncidentRepository.GetById(id);
+            return await IncidentRepository.GetById(id);
         }
     }
 }

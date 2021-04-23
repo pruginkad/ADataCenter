@@ -44,7 +44,7 @@ namespace ADataCenter.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=incidentdb;Username=postgres;Password=postgres");
+            //optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=incidentdb;Username=postgres;Password=postgres", o=> o.UseNodaTime).;
             //string cs = string.Empty;
             //optionsBuilder.UseSqlServer(cs);
             //optionsBuilder.UseInMemoryDatabase("IncidentDb");

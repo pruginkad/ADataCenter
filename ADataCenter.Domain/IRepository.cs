@@ -25,5 +25,6 @@ namespace ADataCenter.Domain
         Task<T> GetById(Guid id);
         Task<EN_RETCODE> Delete(Guid id);
         Task<EN_RETCODE> Update(T item);
+        Task<T> GetAll(IEnumerable<Guid> filter);
     }
 }

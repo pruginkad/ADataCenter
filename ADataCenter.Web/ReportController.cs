@@ -18,17 +18,13 @@ namespace ADataCenter.Web
     public class ReportController : ControllerBase
     {
         private readonly ILogger<ReportController> _logger;
-        private readonly IUnitOfWork<Incident> _repo;
-        private readonly IUnitOfWorkList<incident_handling_list> _repoList;
+        private readonly IUnitOfWorkReport<ReportPage> _repo;
 
         public ReportController(ILogger<ReportController> logger,
-            IUnitOfWork<Incident> repo,
-            IUnitOfWorkList<incident_handling_list> repoList
-            )
+            IUnitOfWorkReport<ReportPage> repo)
         {
             _logger = logger;
             _repo = repo;
-            _repoList = repoList;
         }
 
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -36,10 +32,12 @@ namespace ADataCenter.Web
         // POST api/<ReportController>
         [HttpPost]
         [Route("GetFullData")]
-        public async Task<ActionResult> GetFullData(Filter4Get filter)
+        public async Task<ActionResult<ReportPage>> GetFullData(Filter4Get filter)
         {
-            await _repo.GetAll(filter);
-            return Ok();
+            
+            var page = await _repo.GetAll(filter);
+            
+            return Ok(page);
         }
     }
 }

@@ -51,15 +51,17 @@ namespace ADataCenter.Data
             return EN_RETCODE.OK;
         }
 
-        public Task<Incident> GetById(Guid id)
+        public async Task<Incident> GetById(Guid id)
         {
-            return  _IncidentContext.Incidents.FirstOrDefaultAsync(t => t.ID == id);
+            return  await _IncidentContext.Incidents.FirstOrDefaultAsync(t => t.ID == id);
         }
 
         public async Task<IEnumerable<Incident>> GetAll(Filter4Get filter)
         {
             var ret = await _IncidentContext.Incidents.
                 Where(i => i.IncidentTimestamp >= filter.time1 && i.IncidentTimestamp <= filter.time2)
+                .Skip(filter.Skip)
+                .Take(filter.Take)
                 .ToListAsync();
             return ret;
         }

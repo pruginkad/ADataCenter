@@ -9,7 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace ADataCenter.Web.Controllers
+namespace ADataCenter.Web
 {
     [ApiController]
     [Route("IncidentApi")]

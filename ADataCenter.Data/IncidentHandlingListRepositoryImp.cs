@@ -67,6 +67,17 @@ namespace ADataCenter.Data
         {
            return await Task<EN_RETCODE>.FromResult(EN_RETCODE.FAILED);
         }
+
+        public async Task<incident_handling_list> GetAll(IEnumerable<Guid> filter)
+        {
+            incident_handling_list list = new incident_handling_list();
+            list.data = await _IncidentContext.IncidentHandling.
+                Where(i => filter.Contains(i.incident_id)
+                //&& i.line_timestamp > DateTime.MinValue && i.line_timestamp < DateTime.MaxValue
+                )
+                .ToListAsync();
+            return list;
+        }
     }
 }
 

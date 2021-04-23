@@ -19,8 +19,11 @@ namespace ADataCenter.Web
     {
         IConfiguration _configuration;
         string _image_path = string.Empty;
-        public PictureController(IConfiguration configuration, IWebHostEnvironment appEnvironment)
+        IUnitOfWorkReport<ReportPage> _unit_of_work_repo;
+        public PictureController(IConfiguration configuration, IWebHostEnvironment appEnvironment,
+            IUnitOfWorkReport<ReportPage> repo)
         {
+            _unit_of_work_repo = repo;
             _configuration = configuration;
             try
             {
@@ -52,14 +55,7 @@ namespace ADataCenter.Web
         [HttpGet("GetAsBase64/{path}")]
         public ActionResult<ImageData> GetAsBase64(string path)
         {
-            string ipath = Path.Combine(_image_path, path);
-            Byte[] b;
-            b = System.IO.File.ReadAllBytes(ipath);
-            ImageData temp = new ImageData()
-            {
-                path = path,
-                image_data = Convert.ToBase64String(b)
-            };
+            ImageData temp = _unit_of_work_repo.GetAsBase64(path);
             return Ok(temp);
         }
 

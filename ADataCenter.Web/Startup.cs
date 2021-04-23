@@ -34,16 +34,21 @@ namespace ADataCenter.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            
-            services.AddScoped<IUnitOfWork<Incident>, UnitOfWorkIncident>();
-            services.AddScoped<IRepository<Incident>, IncidentRepositoryImp>();
 
-            services.AddScoped<IUnitOfWorkList<incident_handling_list>, UnitOfWorkIncidentHandlingList>();
+            services.AddSingleton(arg => new ServiceArgs() { ImagePath = Configuration["ImagePath"] });
+
+            services.AddScoped<IRepository<Incident>, IncidentRepositoryImp>();
             services.AddScoped<IRepositoryList<incident_handling_list>, IncidentHandlingListRepositoryImp>();
+
+            services.AddScoped<IUnitOfWork<Incident>, UnitOfWorkIncident>();
+            services.AddScoped<IUnitOfWorkList<incident_handling_list>, UnitOfWorkIncidentHandlingList>();
+            
+
+            services.AddScoped<IUnitOfWorkReport<ReportPage>, UnitOfWorkReport>();
 
             string cs = Configuration.GetConnectionString("IncidentDatabase");
             services.AddDbContext<IncidentContext>(options =>
-                    options.UseNpgsql(cs));
+                    options.UseNpgsql(cs, o1 => o1.UseNodaTime()));
 
             services.AddSingleton<IConfiguration>(Configuration);
 

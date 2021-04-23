@@ -1,6 +1,9 @@
-﻿using System;
+﻿using NodaTime;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace ADataCenter.Domain
 {
@@ -14,8 +17,24 @@ namespace ADataCenter.Domain
         public string objid { get; set; }
         public string action { get; set; }
         public string user_id { get; set; }
-        public DateTime IncidentTimestamp { get; set; } //in UTC.
         
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public Instant IncidentTimestamp { get; set; } = new Instant();
+
+        [NotMapped]
+        public DateTime IncidentTimestampDt 
+        {
+            get
+            {
+                return IncidentTimestamp.ToDateTimeUtc();
+            }
+            set
+            {
+                IncidentTimestamp = Instant.FromDateTimeUtc(value);
+            }
+        } //in UTC.
+
 
         //public void CopyFrom(Incident copy_it)
         //{
