@@ -93,5 +93,18 @@ namespace ADataCenter.Web
                 };
             }
         }
+
+        public class SingleFilter : IExamplesProvider<Filter4Get>
+        {
+            public Filter4Get GetExamples()
+            {
+                return new Filter4Get
+                {
+                    time1 = DateTime.Now.Subtract(TimeSpan.FromDays(1)), 
+                    time2 = DateTime.Now
+                };
+            }
+        }
+        
     }
 }

@@ -24,9 +24,9 @@ namespace ADataCenter.Domain
             return IncidentRepository.Delete(id);
         }
 
-        public Task<IEnumerable<Incident>> GetAll()
+        public Task<IEnumerable<Incident>> GetAll(Filter4Get filter)
         {
-            return IncidentRepository.GetAll();
+            return IncidentRepository.GetAll(filter);
         }
 
         public Task<Incident> GetById(Guid id)

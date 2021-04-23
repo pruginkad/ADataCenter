@@ -85,6 +85,7 @@ namespace ADataCenter.Web
             try
             {
                 env.WebRootPath = Configuration["ImagePath"];
+                System.IO.Directory.CreateDirectory(env.WebRootPath);
             }
             catch(Exception)
             { }

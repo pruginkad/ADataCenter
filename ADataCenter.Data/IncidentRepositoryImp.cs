@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ADataCenter.Data
 {
@@ -67,9 +68,11 @@ namespace ADataCenter.Data
             await _IncidentContext.SaveChangesAsync();
             return EN_RETCODE.OK;
         }
-        public async Task<IEnumerable<Incident>> GetAll()
+        public async Task<IEnumerable<Incident>> GetAll(Filter4Get filter)
         {
-            var ret = await _IncidentContext.Incidents.ToListAsync();
+            var ret = await _IncidentContext.Incidents.
+                Where(i => i.IncidentTimestamp >= filter.time1 && i.IncidentTimestamp <= filter.time2)
+                .ToListAsync();
             return ret;
         }
     }

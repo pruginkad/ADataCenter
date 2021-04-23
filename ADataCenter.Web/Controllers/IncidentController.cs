@@ -50,16 +50,18 @@ namespace ADataCenter.Web.Controllers
             return ("Cannot determine operating system!");
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetAllIncidents")]
-        public async Task<IEnumerable<Incident>> Get()
+        public async Task<IEnumerable<Incident>> GetAllIncidents(Filter4Get filter)
         {
-            return  await _repo.GetAll();
+            return  await _repo.GetAll(filter);
         }
 
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpGet ("{incident_id:guid}", Name = "GetById")]
+        //[HttpGet ("{incident_id:guid}", Name = "GetById")]
+        [Route("GetById/{Incident_id}")]
         public async Task<ActionResult<Incident>> GetById(Guid Incident_id)
         {
             Incident temp = await _repo.GetById(Incident_id);
