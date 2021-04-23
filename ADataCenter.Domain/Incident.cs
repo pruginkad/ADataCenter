@@ -17,13 +17,13 @@ namespace ADataCenter.Domain
         public DateTime IncidentTimestamp { get; set; } //in UTC.
         
 
-        public void CopyFrom(Incident copy_it)
-        {
-            IncidentName = copy_it.IncidentName;
-            IncidentTimestamp = copy_it.IncidentTimestamp;
-            objtype = copy_it.objtype;
-            objid = copy_it.objid;
-            action = copy_it.action;
-        }
+        //public void CopyFrom(Incident copy_it)
+        //{
+        //    IncidentName = copy_it.IncidentName;
+        //    IncidentTimestamp = copy_it.IncidentTimestamp;
+        //    objtype = copy_it.objtype;
+        //    objid = copy_it.objid;
+        //    action = copy_it.action;
+        //}
     }
 }

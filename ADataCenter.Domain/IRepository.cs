@@ -16,9 +16,7 @@ namespace ADataCenter.Domain
         Task<EN_RETCODE> Create(T item);
         Task<T> GetById(Guid id);
         Task<EN_RETCODE> Delete(Guid id);
-        Task<EN_RETCODE> Update(T item);
         Task<IEnumerable<T>> GetAll(Filter4Get filter);
-
     }
 
     public interface IRepositoryList<T> where T : class

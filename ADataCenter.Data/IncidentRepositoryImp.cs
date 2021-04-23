@@ -56,18 +56,6 @@ namespace ADataCenter.Data
             return  _IncidentContext.Incidents.FirstOrDefaultAsync(t => t.ID == id);
         }
 
-        public async Task<EN_RETCODE> Update(Incident item)
-        {
-            var db_row = await GetById(item.ID);
-            if (db_row == null)
-            {
-                return EN_RETCODE.FAILED;
-            }
-            
-            db_row.CopyFrom(item);
-            await _IncidentContext.SaveChangesAsync();
-            return EN_RETCODE.OK;
-        }
         public async Task<IEnumerable<Incident>> GetAll(Filter4Get filter)
         {
             var ret = await _IncidentContext.Incidents.

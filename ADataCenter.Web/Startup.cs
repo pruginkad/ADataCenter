@@ -77,7 +77,7 @@ namespace ADataCenter.Web
 
             app.UseSwaggerUI(setUpAction =>
             {
-                setUpAction.SwaggerEndpoint("/swagger/APISpecification/swagger.json", "Applicant API");
+                setUpAction.SwaggerEndpoint("/swagger/APISpecification/swagger.json", "Incident API");
                 setUpAction.RoutePrefix = "";
 
             });

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ADataCenter.Domain;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,40 +11,35 @@ using System.Threading.Tasks;
 
 namespace ADataCenter.Web
 {
-    [Route("api/[controller]")]
+    [Route("IncidentReportApi")]
     [ApiController]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     public class ReportController : ControllerBase
     {
-        // GET: api/<ReportController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly ILogger<ReportController> _logger;
+        private readonly IUnitOfWork<Incident> _repo;
+        private readonly IUnitOfWorkList<incident_handling_list> _repoList;
+
+        public ReportController(ILogger<ReportController> logger,
+            IUnitOfWork<Incident> repo,
+            IUnitOfWorkList<incident_handling_list> repoList
+            )
         {
-            return new string[] { "value1", "value2" };
+            _logger = logger;
+            _repo = repo;
+            _repoList = repoList;
         }
 
-        // GET api/<ReportController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         // POST api/<ReportController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [Route("GetFullData")]
+        public async Task<ActionResult> GetFullData(Filter4Get filter)
         {
-        }
-
-        // PUT api/<ReportController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ReportController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            await _repo.GetAll(filter);
+            return Ok();
         }
     }
 }

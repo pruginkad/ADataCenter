@@ -77,7 +77,7 @@ namespace ADataCenter.Web.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("CreateIncident")]
-        public async Task<ActionResult> CreateIncident([FromBody] Incident inIncident)
+        public async Task<ActionResult> CreateIncident(Incident inIncident)
         {
             if(inIncident.ID != Guid.Empty)
             {
@@ -98,26 +98,6 @@ namespace ADataCenter.Web.Controllers
             return Ok();
         }
 
-        [HttpPut]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [Route("UpdateIncident")]
-        public async Task<ActionResult> UpdateIncident(Incident inIncident)
-        {
-            var tempIncident = await _repo.GetById(inIncident.ID);
-            if (tempIncident == null)
-            {
-                return BadRequest("id not exist");
-            }
-
-            var res = await _repo.Update(inIncident);
-            if (res != EN_RETCODE.OK)
-            {
-                return BadRequest("update failed");
-            }
-
-            return Ok();
-        }
 
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

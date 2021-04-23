@@ -33,10 +33,5 @@ namespace ADataCenter.Domain
         {
             return IncidentRepository.GetById(id);
         }
-
-        public Task<EN_RETCODE> Update(Incident item)
-        {
-            return IncidentRepository.Update(item);
-        }
     }
 }
