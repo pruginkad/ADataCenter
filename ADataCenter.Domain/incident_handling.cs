@@ -17,7 +17,7 @@ namespace ADataCenter.Domain
     //incident_id uuid,
     //line_number integer
     [Table("incident_handling", Schema = "public")]
-    public class incident_handling
+    public class Incident_Handling
     {
         [Key]
         public Guid id { get; set; }
@@ -31,7 +31,7 @@ namespace ADataCenter.Domain
         public Instant line_timestamp { get; set; } = new Instant();
 
         [NotMapped]
-        public DateTime lineDateTime
+        public DateTime line_datetime
         {
             get
             {
@@ -42,10 +42,5 @@ namespace ADataCenter.Domain
                 line_timestamp = Instant.FromDateTimeUtc(value);
             }
         } //in UTC.
-    }
-    public class incident_handling_list
-    {
-        public Guid incident_id { get; set; }
-        public List<incident_handling>  data { get; set; }
     }
 }

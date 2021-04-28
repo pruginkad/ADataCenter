@@ -1,21 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ADataCenter.Domain
 {
-    public class UnitOfWorkIncident : IUnitOfWork<Incident>
+    public class UnitOfWorkIncident : IUnitOfWork<IncidentFullData>
     {
-        private readonly IRepository<Incident> IncidentRepository;
-
-        public UnitOfWorkIncident(IRepository<Incident> inRepository)
+        private readonly IRepository<IncidentFullData> IncidentRepository;
+        string _image_path = string.Empty;
+        public UnitOfWorkIncident(IRepository<IncidentFullData> inRepository,
+            ServiceArgs args)
         {
+            _image_path = args.ImagePath;
             this.IncidentRepository = inRepository;
         }
-        public async Task<EN_RETCODE> Create(Incident item)
+        public async Task<EN_RETCODE> Create(IncidentFullData item)
         {
+            try
+            {
+                if(item.image_list.Count > 0)
+                {
+                    foreach(var value in item.image_list)
+                    {
+                        if(value == null)
+                        {
+                            continue;
+                        }
+                        string ipath = Path.Combine(_image_path, value.path);
+                        System.IO.Directory.CreateDirectory(Path.GetDirectoryName(ipath));
+                        var bytes = Convert.FromBase64String(value.image_data);
+                        using (var imageFile = new FileStream(ipath, FileMode.Create))
+                        {
+                            imageFile.Write(bytes, 0, bytes.Length);
+                            imageFile.Flush();
+                        }
+                    }                    
+                }
+                
+            }
+            catch(Exception ex)
+            {
+
+            }
+            
+
             return await IncidentRepository.Create(item);
         }
 
@@ -24,12 +55,12 @@ namespace ADataCenter.Domain
             return await IncidentRepository.Delete(id);
         }
 
-        public async Task<IEnumerable<Incident>> GetAll(Filter4Get filter)
+        public async Task<IEnumerable<IncidentFullData>> GetAll(Filter4Get filter)
         {
             return await IncidentRepository.GetAll(filter);
         }
 
-        public async Task<Incident> GetById(Guid id)
+        public async Task<IncidentFullData> GetById(Guid id)
         {
             return await IncidentRepository.GetById(id);
         }

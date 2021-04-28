@@ -14,14 +14,6 @@ namespace ADataCenter.Domain
         Task<IEnumerable<T>> GetAll(Filter4Get filter);
     }
 
-    public interface IUnitOfWorkList<T> where T : class
-    {
-        Task<EN_RETCODE> Create(T item);
-        Task<T> GetById(Guid id);
-        Task<EN_RETCODE> Delete(Guid id);
-        Task<T> GetAll(IEnumerable<Guid> filter);
-    }
-
     public interface IUnitOfWorkReport<T> where T : class
     {
         Task<T> GetAll(Filter4Get filter);

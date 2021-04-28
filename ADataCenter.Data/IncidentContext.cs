@@ -17,7 +17,7 @@ namespace ADataCenter.Data
             
         }
         DbSet<Incident> _Incidents = null;
-        DbSet<incident_handling> _IncidentHandling = null;
+        DbSet<Incident_Handling> _IncidentHandling = null;
 
         public DbSet<Incident> Incidents
         {
@@ -31,7 +31,7 @@ namespace ADataCenter.Data
             }
         }
 
-        public DbSet<incident_handling> IncidentHandling
+        public DbSet<Incident_Handling> incidentHandling
         {
             get
             {

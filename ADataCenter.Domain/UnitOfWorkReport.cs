@@ -14,18 +14,15 @@ namespace ADataCenter.Domain
 
     public class UnitOfWorkReport : IUnitOfWorkReport<ReportPage>
     {
-        private readonly IRepository<Incident> _RepositoryIncident;
-        private readonly IRepositoryList<incident_handling_list> _RepositoryList;
+        private readonly IRepository<IncidentFullData> _RepositoryIncident;
 
         string _image_path = string.Empty;
         public UnitOfWorkReport(
-            IRepository<Incident> RepositoryIncident, 
-            IRepositoryList<incident_handling_list> RepositoryList,
+            IRepository<IncidentFullData> RepositoryIncident,
             ServiceArgs args)
         {
             _image_path = args.ImagePath;
             this._RepositoryIncident = RepositoryIncident;
-            this._RepositoryList = RepositoryList;
         }
 
         public ImageData GetAsBase64(string path)
@@ -47,46 +44,34 @@ namespace ADataCenter.Domain
                 incidents = new List<IncidentFullData>()
             };
 
-            Dictionary<Guid, IncidentFullData> dic_of_inc = new Dictionary<Guid, IncidentFullData>();
             var incidents = await _RepositoryIncident.GetAll(filter);
-            List<Guid> id_list = new List<Guid>();
-            foreach (var cur_inc in incidents)
+            foreach (var fd in incidents)
             {
-                IncidentFullData fd = new IncidentFullData()
-                {
-                    incident = cur_inc,
-                    image_list = new List<ImageData>(),
-                    incident_hl = new List<incident_handling>()
-                };
                 page.incidents.Add(fd);
-                
-                dic_of_inc.TryAdd(cur_inc.ID, fd);
 
-                id_list.Add(cur_inc.ID);
-            }
-
-            var temp = await _RepositoryList.GetAll(id_list);
-            foreach(var l in temp.data)
-            {
-                IncidentFullData fd;
-                if (dic_of_inc.TryGetValue(l.incident_id, out fd))
+                foreach (var l in fd.incident_hl)
                 {
-                    fd.incident_hl.Add(l);
-                    if(!string.IsNullOrEmpty(l.image_path))
+                    if (!string.IsNullOrEmpty(l.image_path))
                     {
                         try
                         {
+                            if(fd.image_list == null)
+                            {
+                                fd.image_list = new List<ImageData>();
+                            }
+                            
                             var image_data = GetAsBase64(l.image_path);
                             fd.image_list.Add(image_data);
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
 
                         }
-                        
+
                     }
                 }
             }
+
 
             return page;
         }

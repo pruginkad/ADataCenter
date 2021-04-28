@@ -37,11 +37,9 @@ namespace ADataCenter.Web
 
             services.AddSingleton(arg => new ServiceArgs() { ImagePath = Configuration["ImagePath"] });
 
-            services.AddScoped<IRepository<Incident>, IncidentRepositoryImp>();
-            services.AddScoped<IRepositoryList<incident_handling_list>, IncidentHandlingListRepositoryImp>();
+            services.AddScoped<IRepository<IncidentFullData>, IncidentRepositoryImp>();
 
-            services.AddScoped<IUnitOfWork<Incident>, UnitOfWorkIncident>();
-            services.AddScoped<IUnitOfWorkList<incident_handling_list>, UnitOfWorkIncidentHandlingList>();
+            services.AddScoped<IUnitOfWork<IncidentFullData>, UnitOfWorkIncident>();
             
 
             services.AddScoped<IUnitOfWorkReport<ReportPage>, UnitOfWorkReport>();

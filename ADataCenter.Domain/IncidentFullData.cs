@@ -13,7 +13,7 @@ namespace ADataCenter.Domain
             get;
             set;
         }
-        public List<incident_handling> incident_hl
+        public List<Incident_Handling> incident_hl
         {
             get;
             set;
