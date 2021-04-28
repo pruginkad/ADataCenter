@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using System.Linq;
+using NodaTime;
 
 namespace ADataCenter.Data
 {
@@ -58,8 +59,11 @@ namespace ADataCenter.Data
 
         public async Task<IEnumerable<Incident>> GetAll(Filter4Get filter)
         {
+            Instant time1 = Instant.FromDateTimeUtc(filter.time1);
+            Instant time2 = Instant.FromDateTimeUtc(filter.time2);
+
             var ret = await _IncidentContext.Incidents.
-                Where(i => i.IncidentTimestamp >= filter.time1 && i.IncidentTimestamp <= filter.time2)
+                Where(i => i.incidentTimestamp >= time1 && i.incidentTimestamp <= time2)
                 .Skip(filter.Skip)
                 .Take(filter.Take)
                 .ToListAsync();

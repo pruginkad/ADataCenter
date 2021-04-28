@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 
@@ -24,27 +26,22 @@ namespace ADataCenter.Domain
         public string image_path { get; set; }
         public Guid incident_id { get; set; }
 
-        Instant _line_timestamp = new Instant();
-        
-        public Instant line_timestamp 
+        [IgnoreDataMember]
+        [JsonIgnore]
+        public Instant line_timestamp { get; set; } = new Instant();
+
+        [NotMapped]
+        public DateTime lineDateTime
         {
             get
             {
-                return _line_timestamp;
+                return line_timestamp.ToDateTimeUtc();
             }
-
             set
             {
-                try
-                {
-                    _line_timestamp = value;
-                }
-                catch(Exception ex)
-                {
-
-                }
+                line_timestamp = Instant.FromDateTimeUtc(value);
             }
-        }
+        } //in UTC.
     }
     public class incident_handling_list
     {

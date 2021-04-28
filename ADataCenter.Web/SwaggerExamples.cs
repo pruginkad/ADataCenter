@@ -16,11 +16,11 @@ namespace ADataCenter.Web
             {
                 return new Incident
                 {
-                    IncidentName = "Fire",
+                    incidentName = "Fire",
                     objtype = "CAM",
                     objid = "1",
                     action = "ALARM",
-                    IncidentTimestamp = Instant.FromDateTimeUtc(DateTime.UtcNow),
+                    incidentTimestamp = Instant.FromDateTimeUtc(DateTime.UtcNow),
                     user_id = "1"
                 };
             }
@@ -34,20 +34,20 @@ namespace ADataCenter.Web
             {
                 new Incident
                 {
-                    IncidentName = "Smoke on the water",
+                    incidentName = "Smoke on the water",
                     objtype = "CAM",
                     objid = "1",
                     action = "ALARM",
-                    IncidentTimestamp = Instant.FromDateTimeUtc(DateTime.UtcNow),
+                    incidentTimestamp = Instant.FromDateTimeUtc(DateTime.UtcNow),
                     user_id = "2"
                 },
                 new Incident
                 {
-                    IncidentName = "Fire",
+                    incidentName = "Fire",
                     objtype = "CAM",
                     objid = "2",
                     action = "ALARM",
-                    IncidentTimestamp = Instant.FromDateTimeUtc(DateTime.UtcNow),
+                    incidentTimestamp = Instant.FromDateTimeUtc(DateTime.UtcNow),
                     user_id = "1"
                 }
             };
@@ -68,14 +68,14 @@ namespace ADataCenter.Web
                             id = Guid.NewGuid(),
                             line_action = "act1",
                             line_descr = "descr1",
-                            line_timestamp = SystemClock.Instance.GetCurrentInstant()
+                            lineDateTime = DateTime.UtcNow
                         },
                         new incident_handling
                         {
                             id = Guid.NewGuid(),
                             line_action = "act2",
                             line_descr = "descr2",
-                            line_timestamp = SystemClock.Instance.GetCurrentInstant()
+                            lineDateTime = DateTime.UtcNow
                         }
                     }
                 };
@@ -101,8 +101,8 @@ namespace ADataCenter.Web
             {
                 return new Filter4Get
                 {
-                    time1 = Instant.FromDateTimeUtc(DateTime.UtcNow.Subtract(TimeSpan.FromDays(1))),
-                    time2 = Instant.FromDateTimeUtc(DateTime.UtcNow)
+                    time1 = DateTime.UtcNow.Subtract(TimeSpan.FromDays(1)),
+                    time2 = DateTime.UtcNow
                 };
             }
         }

@@ -9,12 +9,12 @@ namespace ADataCenter.Domain
 {
     public class Filter4Get
     {
-        public Instant time1
+        public DateTime time1
         {
             get;
             set;
         }
-        public Instant time2
+        public DateTime time2
         {
             get;
             set;

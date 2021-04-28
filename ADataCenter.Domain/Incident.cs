@@ -12,7 +12,7 @@ namespace ADataCenter.Domain
     {
         [Key]
         public Guid ID { get; set; }
-        public string IncidentName { get; set; }
+        public string incidentName { get; set; }
         public string objtype { get; set; }
         public string objid { get; set; }
         public string action { get; set; }
@@ -20,18 +20,18 @@ namespace ADataCenter.Domain
         
         [IgnoreDataMember]
         [JsonIgnore]
-        public Instant IncidentTimestamp { get; set; } = new Instant();
+        public Instant incidentTimestamp { get; set; } = new Instant();
 
         [NotMapped]
-        public DateTime IncidentTimestampDt 
+        public DateTime incidentDateTime
         {
             get
             {
-                return IncidentTimestamp.ToDateTimeUtc();
+                return incidentTimestamp.ToDateTimeUtc();
             }
             set
             {
-                IncidentTimestamp = Instant.FromDateTimeUtc(value);
+                incidentTimestamp = Instant.FromDateTimeUtc(value);
             }
         } //in UTC.
 
