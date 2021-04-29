@@ -52,6 +52,25 @@ namespace ADataCenter.Domain
 
         public async Task<EN_RETCODE> Delete(Guid id)
         {
+            var temp = await IncidentRepository.GetById(id);
+            if (temp == null)
+            {
+                return EN_RETCODE.FAILED;
+            }
+            foreach(var el in temp?.image_list)
+            {
+                try
+                {
+                    string ipath = Path.Combine(_image_path, el.path);
+                    System.IO.File.Delete(ipath);
+                }
+                catch(Exception ex)
+                {
+
+                }
+            }
+            
+
             return await IncidentRepository.Delete(id);
         }
 
