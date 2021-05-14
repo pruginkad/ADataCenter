@@ -30,9 +30,26 @@ namespace ADataCenter.Web
 
         public IConfiguration Configuration { get; }
 
+        private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //var str = ConfigurationHandler.GetSection<string>(StringConstants.AppSettingsKeys.CORSWhitelistedURL);
+            //if (!string.IsNullOrEmpty(str))
+            {
+                services.AddCors(options =>
+                {
+                    options.AddPolicy(MyAllowSpecificOrigins,
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
+                    });
+                });
+            }
+
             services.AddControllers();
 
             services.AddSingleton(arg => new ServiceArgs() { ImagePath = Configuration["ImagePath"] });
@@ -76,6 +93,7 @@ namespace ADataCenter.Web
                 app.UseDeveloperExceptionPage();
             }
 
+
             app.UseSwagger();
 
             app.UseSwaggerUI(setUpAction =>
@@ -108,6 +126,9 @@ namespace ADataCenter.Web
                 RequestPath = "/MyImages"
             });
             //End files
+            //app.UseCors();
+            app.UseCors(MyAllowSpecificOrigins);
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

@@ -1,19 +1,15 @@
--- Table: public.incidents
+-- Database: incidentdb
 
--- DROP TABLE public.incidents;
+-- DROP DATABASE incidentdb;
 
-CREATE TABLE public.incidents
-(
-    name character varying COLLATE pg_catalog."default",
-    action character varying COLLATE pg_catalog."default",
-    objid character varying COLLATE pg_catalog."default",
-    objtype character varying COLLATE pg_catalog."default",
-    "timestamp" timestamp without time zone,
-    id uuid NOT NULL,
-    user_id character varying COLLATE pg_catalog."default"
-)
+CREATE DATABASE incidentdb
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'Russian_Russia.1251'
+    LC_CTYPE = 'Russian_Russia.1251'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
 
-TABLESPACE pg_default;
-
-ALTER TABLE public.incidents
-    OWNER to postgres;
+COMMENT ON DATABASE incidentdb
+    IS 'incidentdb';
