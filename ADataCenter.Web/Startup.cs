@@ -62,8 +62,25 @@ namespace ADataCenter.Web
             services.AddScoped<IUnitOfWorkReport<ReportPage>, UnitOfWorkReport>();
 
             string cs = Configuration.GetConnectionString("IncidentDatabase");
-            services.AddDbContext<IncidentContext>(options =>
+            string DataBaseType = Configuration.GetConnectionString("DataBaseType");
+
+            if (DataBaseType == "UseSqlServer")
+            {
+                services.AddDbContext<IncidentContext>(options =>
+                    options.UseSqlServer(cs, o1 => o1.UseNodaTime()));
+            }
+            else
+            if (DataBaseType == "UseInMemoryDatabase")
+            {
+                services.AddDbContext<IncidentContext>(options =>
+                    options.UseInMemoryDatabase("IncidentDb"));
+            }
+            else
+            {
+                services.AddDbContext<IncidentContext>(options =>
                     options.UseNpgsql(cs, o1 => o1.UseNodaTime()));
+            }
+            
 
             services.AddSingleton<IConfiguration>(Configuration);
 
