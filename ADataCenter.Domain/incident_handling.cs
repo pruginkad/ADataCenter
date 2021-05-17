@@ -16,7 +16,8 @@ namespace ADataCenter.Domain
     //line_action character varying COLLATE pg_catalog."default",
     //incident_id uuid,
     //line_number integer
-    [Table("incident_handling", Schema = "public")]
+    //[Table("incident_handling", Schema = "public")]
+    [Table("incident_handling")]
     public class Incident_Handling
     {
         [Key]

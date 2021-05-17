@@ -51,6 +51,9 @@ namespace ADataCenter.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //modelBuilder.HasDefaultSchema("public");//postgres
+            //modelBuilder.HasDefaultSchema("dbo");//sql server
+
             //modelBuilder.Entity<incident_handling>()
             //    .HasNoKey();
         }

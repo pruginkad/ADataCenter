@@ -57,11 +57,11 @@ namespace ADataCenter.Domain
             {
                 return EN_RETCODE.FAILED;
             }
-            foreach(var el in temp?.image_list)
+            foreach(var el in temp?.incident_hl)
             {
                 try
                 {
-                    string ipath = Path.Combine(_image_path, el.path);
+                    string ipath = Path.Combine(_image_path, el.image_path);
                     System.IO.File.Delete(ipath);
                 }
                 catch(Exception ex)

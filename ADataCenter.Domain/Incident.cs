@@ -7,7 +7,8 @@ using System.Text.Json.Serialization;
 
 namespace ADataCenter.Domain
 {
-    [Table("incidents", Schema = "public")]
+    //[Table("incidents", Schema = "public")]
+    [Table("incidents")]
     public class Incident
     {
         [Key]

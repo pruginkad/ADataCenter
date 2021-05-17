@@ -62,7 +62,7 @@ namespace ADataCenter.Web
             services.AddScoped<IUnitOfWorkReport<ReportPage>, UnitOfWorkReport>();
 
             string cs = Configuration.GetConnectionString("IncidentDatabase");
-            string DataBaseType = Configuration.GetConnectionString("DataBaseType");
+            string DataBaseType = Configuration["DataBaseType"];
 
             if (DataBaseType == "UseSqlServer")
             {

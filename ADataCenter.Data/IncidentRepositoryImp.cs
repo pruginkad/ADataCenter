@@ -101,41 +101,52 @@ namespace ADataCenter.Data
         {
             List<IncidentFullData> ret = new List<IncidentFullData>();
 
-            Instant time1 = Instant.FromDateTimeUtc(filter.time1);
-            Instant time2 = Instant.FromDateTimeUtc(filter.time2);
+            try
+            {
+                Instant time1 = Instant.FromDateTimeUtc(filter.time1);
+                Instant time2 = Instant.FromDateTimeUtc(filter.time2);
 
-            Dictionary<Guid, IncidentFullData> dic_of_inc = new Dictionary<Guid, IncidentFullData>();
+                Dictionary<Guid, IncidentFullData> dic_of_inc = new Dictionary<Guid, IncidentFullData>();
 
-            var ret1 = await _IncidentContext.Incidents.
+
+                var ret1 = await _IncidentContext.Incidents.
                 Where(i => i.timestamp >= time1 && i.timestamp <= time2)
                 .Skip(filter.Skip)
                 .Take(filter.Take)
                 .ToListAsync();
 
-            List<Guid> id_list = new List<Guid>();
 
-            foreach (var cur_inc in ret1)
-            {
-                IncidentFullData fd = new IncidentFullData()
-                {
-                    incident = cur_inc,
-                    image_list = new List<ImageData>(),
-                    incident_hl = new List<Incident_Handling>()
-                };
-                ret.Add(fd);
-                dic_of_inc.TryAdd(cur_inc.id, fd);
-                id_list.Add(cur_inc.id);
-            }
 
-            var temp = await GetHandlingListByGuids(id_list);
-            foreach (var l in temp)
-            {
-                IncidentFullData fd;
-                if (dic_of_inc.TryGetValue(l.incident_id, out fd))
+                List<Guid> id_list = new List<Guid>();
+
+                foreach (var cur_inc in ret1)
                 {
-                    fd.incident_hl.Add(l);
+                    IncidentFullData fd = new IncidentFullData()
+                    {
+                        incident = cur_inc,
+                        image_list = new List<ImageData>(),
+                        incident_hl = new List<Incident_Handling>()
+                    };
+                    ret.Add(fd);
+                    dic_of_inc.TryAdd(cur_inc.id, fd);
+                    id_list.Add(cur_inc.id);
+                }
+
+                var temp = await GetHandlingListByGuids(id_list);
+                foreach (var l in temp)
+                {
+                    IncidentFullData fd;
+                    if (dic_of_inc.TryGetValue(l.incident_id, out fd))
+                    {
+                        fd.incident_hl.Add(l);
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+                throw;
+            }
+            
 
             
             return ret;

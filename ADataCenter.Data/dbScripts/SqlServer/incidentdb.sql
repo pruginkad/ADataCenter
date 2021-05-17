@@ -23,7 +23,7 @@ CREATE TABLE [dbo].incidents(
 	[objid] [nvarchar](255) NULL, 
 	[objtype] [nvarchar](255) NULL, 
 	[user_id] [nvarchar](255) NULL, 
-	[timestamp] [datetimeoffset] NULL,
+	[timestamp] [datetime2] NULL,
 	[id] [uniqueidentifier] NOT NULL
  CONSTRAINT [PK_GUID_incidents] PRIMARY KEY CLUSTERED 
 ( [id] ASC )
@@ -38,7 +38,7 @@ CREATE TABLE [dbo].incident_handling(
 	[line_action] [nvarchar](max) NULL, 
 	[image_path] [nvarchar](max) NULL, 
 	[incident_id] [uniqueidentifier] NOT NULL, 
-	[line_timestamp] [datetimeoffset] NULL,
+	[line_timestamp] [datetime2] NULL,
 	[id] [uniqueidentifier] NOT NULL
  CONSTRAINT [PK_GUID_incident_handling] PRIMARY KEY CLUSTERED 
 ( [id] ASC )

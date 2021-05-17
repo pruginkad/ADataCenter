@@ -32,15 +32,15 @@ namespace ADataCenter.Web
                         new Incident_Handling
                         {
                             id = Guid.NewGuid(),
-                            line_action = "act1",
-                            line_descr = "descr1",
+                            line_action = "action without image",
+                            line_descr = "description of action",
                             line_datetime = DateTime.UtcNow
                         },
                         new Incident_Handling
                         {
                             id = Guid.NewGuid(),
-                            line_action = "act2",
-                            line_descr = "descr2",
+                            line_action = "action with image",
+                            line_descr = "description: this is something with image",
                             line_datetime = DateTime.UtcNow,
                             image_path = @$"test/{guid}.png"
                         }
