@@ -20,6 +20,7 @@ namespace ADataCenter.Web
                     incident = new Incident
                     {
                         id = guid,
+                        src_id = Guid.NewGuid(),
                         name = "Fire_"+DateTime.UtcNow.ToShortTimeString(),
                         objtype = "CAM",
                         objid = "1",

@@ -24,7 +24,8 @@ CREATE TABLE [dbo].incidents(
 	[objtype] [nvarchar](255) NULL, 
 	[user_id] [nvarchar](255) NULL, 
 	[timestamp] [datetime2] NULL,
-	[id] [uniqueidentifier] NOT NULL
+	[id] [uniqueidentifier] NOT NULL,
+	[src_id] [uniqueidentifier] NOT NULL
  CONSTRAINT [PK_GUID_incidents] PRIMARY KEY CLUSTERED 
 ( [id] ASC )
 ) ON [PRIMARY] 

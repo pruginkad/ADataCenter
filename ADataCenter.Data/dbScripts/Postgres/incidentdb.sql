@@ -26,6 +26,7 @@ CREATE TABLE public.incidents
     objtype character varying COLLATE pg_catalog."default",
     "timestamp" timestamp with time zone,
     id uuid NOT NULL,
+    src_id uuid NOT NULL,
     user_id character varying COLLATE pg_catalog."default"
 )
 

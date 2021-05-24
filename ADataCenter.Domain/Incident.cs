@@ -13,6 +13,7 @@ namespace ADataCenter.Domain
     {
         [Key]
         public Guid id { get; set; }
+        public Guid src_id { get; set; }
         public string name { get; set; }
         public string objtype { get; set; }
         public string objid { get; set; }
